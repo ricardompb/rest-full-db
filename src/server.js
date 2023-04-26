@@ -37,7 +37,7 @@ router.put('/:id', produtoController.update)
 router.delete('/:id', produtoController.remove)
 
 
-const agendaController = require('./controller/agenda.controller.v2')(knex)
+const agendaController = require('./controller/agenda.controller')(knex)
 router2.get('/', agendaController.get)
 router2.get('/:id', agendaController.getById)
 router2.post('/', agendaController.create)
