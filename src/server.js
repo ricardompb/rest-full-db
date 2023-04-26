@@ -37,15 +37,15 @@ router.put('/:id', produtoController.update)
 router.delete('/:id', produtoController.remove)
 
 
-const produtoControllerV2 = require('./controller/produto.controller.v2')(knex)
-router2.get('/', produtoControllerV2.get)
-router2.get('/:id', produtoControllerV2.getById)
-router2.post('/', produtoControllerV2.create)
-router2.put('/:id', produtoControllerV2.update)
-router2.delete('/:id', produtoControllerV2.remove)
+const agendaController = require('./controller/agenda.controller.v2')(knex)
+router2.get('/', agendaController.get)
+router2.get('/:id', agendaController.getById)
+router2.post('/', agendaController.create)
+router2.put('/:id', agendaController.update)
+router2.delete('/:id', agendaController.remove)
 
 app.use('/produtos/v1', router)
-app.use('/produtos/v2', router2)
+app.use('/agendas/v1', router2)
 
 app.listen(PORT, HOST, () => {
   console.log('server running at http://0.0.0.0:8080')

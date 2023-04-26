@@ -4,11 +4,10 @@
  */
 exports.up = function(knex) {
   return knex.schema
-    .createTable('produto', table => {
+    .createTable('agenda', table => {
       table.increments('id')
-      table.string('descricao', 255).notNullable()
-      table.decimal('valor', 15,2).notNullable()
-      table.string('marca', 255).notNullable()
+      table.string('nome', 255).notNullable()
+      table.string('telefone', 11).notNullable()
     })
 };
 
@@ -18,5 +17,5 @@ exports.up = function(knex) {
  */
 exports.down = function(knex) {
   return knex.schema
-    .dropTable('produto')
+    .dropTable('agenda')
 };
