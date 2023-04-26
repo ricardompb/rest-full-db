@@ -10,4 +10,6 @@ COPY . .
 
 EXPOSE 3000
 
+CMD ["knex", "knex migrate:up --env production"]
+
 CMD ["node", "src/server.js"]

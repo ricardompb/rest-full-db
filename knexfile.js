@@ -3,6 +3,11 @@
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
+
+const fs = require('node:fs')
+const path = require('node:path')
+const filename = path.join(__dirname, 'ca-certificate.crt')
+
 module.exports = {
 
   development: {
@@ -31,9 +36,15 @@ module.exports = {
   production: {
     client: 'postgresql',
     connection: {
-      database: 'rest-full',
-      user:     'postgres',
-      password: 'gt3540a'
+      host: 'db-postgresql-nyc1-krinfo-01-do-user-10191204-0.b.db.ondigitalocean.com',
+      database: 'rest-full-pool',
+      user:     'doadmin',
+      password: 'AVNS_govTz9ZpnVjrDLMkvzX',
+      port: 25061,
+      ssl: {
+        rejectUnauthorized: false,
+        ca: fs.readFileSync(filename)
+      },
     },
     pool: {
       min: 2,
