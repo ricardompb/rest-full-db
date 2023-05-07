@@ -2,13 +2,23 @@
   <form class="row justify-center q-pt-lg">
     <div class="container q-pt-lg q-gutter-sm">
       <q-img src="./LoginForm.svg" width="350px"/>
-      <q-input label="E-mail"
+      <q-input label="Login"
                :readonly="loading"
                v-model="form.login"
                autofocus/>
       <q-input label="Senha"
+               @blur="onBlur"
+               @focus="onFocus"
+               :type="this.showPassword ? 'password' : 'text'"
+               :toggle="showPassword"
                :readonly="loading"
-               v-model="form.senha"/>
+               v-model="form.senha">
+        <template v-slot:append>
+          <q-icon :name="showPassword ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="showPassword = !showPassword"/>
+        </template>
+      </q-input>
       <div class="row">
         <q-btn @click="login"
                dense
@@ -30,8 +40,14 @@ export default defineComponent({
   name: 'LoginForm',
   setup () {
     const store = segurancaStore()
-    const form = ref({})
+    const form = ref({
+      login: '',
+      senha: ''
+    })
     const loading = ref(false)
+    const focused = ref(false)
+    const showPassword = ref(true)
+
     const login = async () => {
       loading.value = true
       try {
@@ -40,7 +56,12 @@ export default defineComponent({
         loading.value = false
       }
     }
-    return { form, loading, login }
+
+    const onBlur = () => (focused.value = false)
+
+    const onFocus = () => (focused.value = true)
+
+    return { form, loading, showPassword, login, onBlur, onFocus }
   }
 })
 </script>
