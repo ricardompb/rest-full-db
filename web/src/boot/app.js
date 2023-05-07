@@ -8,6 +8,7 @@ export function notify (params) {
   }
   return Notify.create(opts)
 }
+
 export const loading = {
   active: false,
   show (self) {
@@ -46,8 +47,15 @@ export default ({ app }) => {
 
   anonymousRouter.push('/login')
 
-  routes.push({
+  routes.push([{
     path: '/login',
     component: () => import('pages/login/LoginForm.vue')
-  })
+  }, {
+    path: '/agenda',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: 'view', component: () => import('pages/agenda/AgendaView.vue') },
+      { path: 'form', component: () => import('pages/agenda/AgendaForm.vue') }
+    ]
+  }])
 }
