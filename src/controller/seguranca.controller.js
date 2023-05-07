@@ -8,13 +8,12 @@ module.exports = (knex) => {
       try {
         const users = await knex('usuario')
           .insert({ nome, login, senha: bcryptjs.hashSync(senha, 8), email }, ['id'])
-        const [user] = users
-        return res.status(201).json({ "id": user.id })
+        const [usuario] = users
+        return res.status(201).json({ "id": usuario.id })
       } catch (e) {
         res.status(500).json({ message: `Erro ao registrar usuário - ${ e.message }` })
       }
     },
-
     async login (req, res) {
       try {
         const { login, senha } = req.body
@@ -22,10 +21,10 @@ module.exports = (knex) => {
           .select('*')
           .from('usuario')
           .where({ login })
-        if (usuarios.length === 0) {
+        const [usuario] = usuarios
+        if (!usuario) {
           return res.status(200).json({ message: 'Usuário não encontrado na base de dados...' })
         }
-        const [usuario] = usuarios
         const isValid = bcryptjs.compareSync(senha, usuario.senha)
         if (!isValid) {
           return res.status(200).json({ message: 'Senha informada está incorreta.' })
@@ -38,6 +37,41 @@ module.exports = (knex) => {
         })
       } catch (e) {
         return res.status(500).json({ message: `Erro ao verificar login - ${e.message}` })
+      }
+    },
+    async authorization (req, res, next){
+      const { authorization } = req.headers
+      if (!authorization) {
+        return res.status(401).json({ message: 'Token de acesso requerido' })
+      }
+      const [bearer, token] = authorization.split(' ')
+      if (!/Bearer/.test(bearer)) {
+        return res.status(401).json({ message: 'Tipo de autenticação deve ser bearer' })
+      }
+      jwt.verify(token, process.env.SECRET_KEY, (err, decodeToken) => {
+        if (err) {
+          return res.status(401).json({ message: 'Acesso negado' })
+        }
+        req.usuarioId = decodeToken.id
+        return next()
+      })
+    },
+    async isAdmin (req, res, next) {
+      try {
+        const usuarios = await knex
+          .select('*')
+          .from('usuario')
+          .where({ id: req.usuarioId })
+        const [usuario] = usuarios
+        if (!usuario) {
+          return res.status(403).json({ message: 'Role de ADMIN requerida' })
+        }
+        const roles = usuario.roles.split(';')
+        if (['ADMIN'].includes(roles)) {
+          return next()
+        }
+      } catch (e) {
+        return res.status(500).json({ message: `Erro ao verificar roles do usuário - ${e.message}` })
       }
     }
   }

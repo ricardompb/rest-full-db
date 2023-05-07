@@ -32,27 +32,28 @@ const produtoRouter = express.Router()
 const agendaRouter = express.Router()
 const segurancaRouter = express.Router()
 
-const produtoController = require('./controller/produto.controller')
-produtoRouter.get('/', produtoController.get)
-produtoRouter.get('/:id', produtoController.getById)
-produtoRouter.post('/', produtoController.create)
-produtoRouter.put('/:id', produtoController.update)
-produtoRouter.delete('/:id', produtoController.remove)
-
-const agendaController = require('./controller/agenda.controller')(knex)
-agendaRouter.get('/', agendaController.get)
-agendaRouter.get('/:id', agendaController.getById)
-agendaRouter.post('/', agendaController.create)
-agendaRouter.put('/:id', agendaController.update)
-agendaRouter.delete('/:id', agendaController.remove)
-
 const segurancaController = require('./controller/seguranca.controller')(knex)
 segurancaRouter.post('/register', segurancaController.register)
 segurancaRouter.post('/login', segurancaController.login)
+const { authorization, isAdmin } = segurancaController
+
+const produtoController = require('./controller/produto.controller')
+produtoRouter.get('/', authorization, isAdmin, produtoController.get)
+produtoRouter.get('/:id', authorization, isAdmin, produtoController.getById)
+produtoRouter.post('/', authorization, isAdmin, produtoController.create)
+produtoRouter.put('/:id', authorization, isAdmin, produtoController.update)
+produtoRouter.delete('/:id', authorization, isAdmin, produtoController.remove)
+
+const agendaController = require('./controller/agenda.controller')(knex)
+agendaRouter.get('/', authorization, isAdmin, agendaController.get)
+agendaRouter.get('/:id', authorization, isAdmin, agendaController.getById)
+agendaRouter.post('/', authorization, isAdmin, agendaController.create)
+agendaRouter.put('/:id', authorization, isAdmin, agendaController.update)
+agendaRouter.delete('/:id', authorization, isAdmin, agendaController.remove)
 
 app.use('/produtos/v1', produtoRouter)
 app.use('/agendas/v1', agendaRouter)
-app.use('/seguranca', )
+app.use('/seguranca', segurancaRouter)
 
 app.listen(PORT, HOST, () => {
   console.log('server running at http://0.0.0.0:8080')
