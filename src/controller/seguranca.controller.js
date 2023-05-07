@@ -30,10 +30,10 @@ module.exports = (knex) => {
         delete usuario.senha
         return res.status(200).json({ ...usuario, token })
       } catch (e) {
-        return res.status(500).json({ message: `Erro ao verificar login - ${e.message}` })
+        return res.status(500).json({ message: `Erro ao verificar login - ${ e.message }` })
       }
     },
-    async authorization (req, res, next){
+    async authorization (req, res, next) {
       const { authorization } = req.headers
       if (!authorization) {
         return res.status(401).json({ message: 'Token de acesso requerido' })
@@ -63,7 +63,7 @@ module.exports = (knex) => {
         }
         return res.status(403).json({ message: 'Role de ADMIN requerida' })
       } catch (e) {
-        return res.status(500).json({ message: `Erro ao verificar roles do usuário - ${e.message}` })
+        return res.status(500).json({ message: `Erro ao verificar roles do usuário - ${ e.message }` })
       }
     }
   }
