@@ -11,7 +11,7 @@ module.exports = {
       host: 'localhost',
       database: 'rest-full',
       user:     'postgres',
-      password: 'gt3540a',
+      password: '',
       port: 5432
     },
     pool: {
