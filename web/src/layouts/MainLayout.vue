@@ -9,7 +9,7 @@
                aria-label="Menu"
                @click="toggleLeftDrawer"/>
 
-        <q-toolbar-title>
+        <q-toolbar-title @click="$router.push('/')" class="cursor-pointer">
           Trabalho Final
         </q-toolbar-title>
 
@@ -43,7 +43,7 @@ const linksList = [
     title: 'Agenda',
     caption: 'Agenda telefonica',
     icon: 'event_note',
-    link: '/agenda/form'
+    link: '/agenda/view'
   }
 ]
 

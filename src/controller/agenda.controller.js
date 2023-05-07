@@ -1,3 +1,7 @@
+const unmask = (val) => {
+  return (val || '').replace(/\D/g, '')
+}
+
 module.exports = (knex) => {
   return {
     async get (req, res) {
@@ -12,6 +16,7 @@ module.exports = (knex) => {
     },
     async create (req, res) {
       try {
+        req.body.telefone = unmask(req.body.telefone)
         res.json(await knex.insert(req.body, ['id']).into('agenda'))
       } catch (e) {
         res.json({ message: `Erro ao incluir o agenda. Erro: ${e.message}` })
@@ -20,6 +25,7 @@ module.exports = (knex) => {
     async update (req, res) {
       try {
         const { id } = req.body
+        req.body.telefone = unmask(req.body.telefone)
         delete req.body.id
         await knex.update(req.body, ['id']).from('agenda').where({ id })
         res.json({ message: 'Agenda atualizado' })

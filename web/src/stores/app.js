@@ -1,13 +1,6 @@
 import { defineStore } from 'pinia'
 import { api } from 'boot/axios'
-import { Notify } from 'quasar'
-export function notify (params) {
-  const opts = { ...params, html: true }
-  if (params.type === 'negative') {
-    opts.timeout = 10000
-  }
-  return Notify.create(opts)
-}
+import { notify } from 'boot/app'
 
 export const segurancaStore = defineStore('auth', {
   state: () => ({

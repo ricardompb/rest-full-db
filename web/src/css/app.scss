@@ -1,1 +1,19 @@
-// app global css in SCSS form
+.doc-card-title {
+  padding: 2px 10px 2px 24px;
+  background: #ccc;
+  color: #555;
+  position: relative;
+  border-radius: 3px 5px 5px 0;
+}
+
+.doc-card-title:after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 0;
+  height: 0;
+  border: 0 solid transparent;
+  border-top-color: #aaa;
+  border-width: 9px 0 0 11px;
+}
