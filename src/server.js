@@ -7,7 +7,7 @@ const HOST = '0.0.0.0'
 const config = require('../knexfile')
 
 const knex = require('knex')({
-  ...config.developer
+  ...config.production
 })
 
 const morgan = require('morgan')
