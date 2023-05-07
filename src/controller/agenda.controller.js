@@ -9,7 +9,7 @@ module.exports = (knex) => {
       res.json(agendas)
     },
     async getById (req, res) {
-      const agendas = await knex.select('*').from('agenda').where('id', '=', req.params.id)
+      const agendas = await knex.select('*').from('agenda').where({id: req.params.id})
       const [agenda] = agendas
       if (!agenda) return res.json({ message: 'Agenda não encontrado.' })
       res.json(agenda)
@@ -27,7 +27,7 @@ module.exports = (knex) => {
         const { id } = req.body
         req.body.telefone = unmask(req.body.telefone)
         delete req.body.id
-        await knex.update(req.body, ['id']).from('agenda').where({ id })
+        await knex.update(req.body, ['id']).from('agenda').where({id})
         res.json({ message: 'Agenda atualizado' })
       } catch (e) {
         res.json({ message: `Erro ao atualizar o agenda. Erro: ${e.message}` })
@@ -40,7 +40,7 @@ module.exports = (knex) => {
           .where({ id: req.params.id })
         res.json({ message: 'Agenda excluido com sucesso' })
       } catch (e) {
-        res.json({ message: `Erro ao excluir o agenda. Erro: ${e.message}` })
+        res.json({ message: `Erro ao excluir o agenda. Erro: ${ e.message }` })
       }
     }
   }
