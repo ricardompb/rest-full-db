@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon --inspect src/server.js",
     "start": "node src/server.js",
-    "web": "cd web && quasar dev -m pwa"
+    "web": "cd web && quasar dev -m pwa",
+    "generateHash": "node -e \"console.log(require('crypto').randomBytes(256).toString('base64'))\""
   },
   "keywords": [],
   "author": "",

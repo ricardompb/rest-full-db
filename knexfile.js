@@ -4,6 +4,8 @@
  * @type { Object.<string, import("knex").Knex.Config> }
  */
 
+
+
 module.exports = {
   developer: {
     client: 'postgresql',
@@ -25,11 +27,11 @@ module.exports = {
   production: {
     client: 'postgresql',
     connection: {
-      host: '',
-      database: '',
-      user:     '',
-      password: '',
-      port: 25061,
+      host: process.env.HOST,
+      database: process.env.DATABASE,
+      user: process.env.USER,
+      password: process.env.PASSWORD,
+      port: process.env.PORT,
       ssl: {
         rejectUnauthorized: false
       },
