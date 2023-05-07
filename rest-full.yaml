@@ -33,3 +33,38 @@ spec:
           args: [ "-c", "cd /usr/src/app/krapp; npm run start" ]
           ports:
             - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-full-web
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: rest-full-web
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-full-web
+  labels:
+    app: rest-full-web
+spec:
+  selector:
+    matchLabels:
+      app: rest-full-web
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rest-full-web
+    spec:
+      containers:
+        - name: node
+          image: krtec/rest-full-web:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80

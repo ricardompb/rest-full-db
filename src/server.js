@@ -33,9 +33,9 @@ const agendaRouter = express.Router()
 const segurancaRouter = express.Router()
 
 const segurancaController = require('./controller/seguranca.controller')(knex)
-segurancaRouter.post('/register', segurancaController.register)
-segurancaRouter.post('/login', segurancaController.login)
-const { authorization, isAdmin } = segurancaController
+const { register, login, authorization, isAdmin } = segurancaController
+segurancaRouter.post('/register', register)
+segurancaRouter.post('/login', login)
 
 const produtoController = require('./controller/produto.controller')
 produtoRouter.get('/', authorization, isAdmin, produtoController.get)
