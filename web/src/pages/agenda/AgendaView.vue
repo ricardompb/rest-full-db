@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-sm">
+  <div classx="q-pa-sm">
     <q-toolbar class="bg-primary text-white">
       <b>Agendas</b>
       <q-space/>
