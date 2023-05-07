@@ -10,7 +10,7 @@ module.exports = {
       host: 'localhost',
       database: 'rest-full',
       user:     'postgres',
-      password: '',
+      password: process.env.PASSWORD,
       port: 5432
     },
     pool: {
