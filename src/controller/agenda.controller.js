@@ -1,14 +1,14 @@
 module.exports = (knex) => {
   return {
     async get (req, res) {
-      const produtos = await knex.select('*').from('agenda')
-      res.json(produtos)
+      const agendas = await knex.select('*').from('agenda')
+      res.json(agendas)
     },
     async getById (req, res) {
-      const produtos = await knex.select('*').from('agenda').where('id', '=', req.params.id)
-      const [produto] = produtos
-      if (!produto) return res.json({ message: 'Agenda não encontrado.' })
-      res.json(produto)
+      const agendas = await knex.select('*').from('agenda').where('id', '=', req.params.id)
+      const [agenda] = agendas
+      if (!agenda) return res.json({ message: 'Agenda não encontrado.' })
+      res.json(agenda)
     },
     async create (req, res) {
       try {

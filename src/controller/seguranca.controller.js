@@ -64,12 +64,13 @@ module.exports = (knex) => {
           .where({ id: req.usuarioId })
         const [usuario] = usuarios
         if (!usuario) {
-          return res.status(403).json({ message: 'Role de ADMIN requerida' })
+          return res.status(403).json({ message: 'Usuário não encontrado...' })
         }
         const roles = usuario.roles.split(';')
-        if (['ADMIN'].includes(roles)) {
+        if (roles.includes('ADMIN')) {
           return next()
         }
+        return res.status(403).json({ message: 'Role de ADMIN requerida' })
       } catch (e) {
         return res.status(500).json({ message: `Erro ao verificar roles do usuário - ${e.message}` })
       }
