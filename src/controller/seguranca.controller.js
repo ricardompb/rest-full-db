@@ -48,11 +48,11 @@ module.exports = (knex) => {
       if (!/Bearer/.test(bearer)) {
         return res.status(401).json({ message: 'Tipo de autenticação deve ser bearer' })
       }
-      jwt.verify(token, process.env.SECRET_KEY, (err, decodeToken) => {
+      jwt.verify(token, process.env.SECRET_KEY, (err, decode) => {
         if (err) {
           return res.status(401).json({ message: 'Acesso negado' })
         }
-        req.usuarioId = decodeToken.id
+        req.usuarioId = decode.id
         return next()
       })
     },
