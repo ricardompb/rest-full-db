@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express')
 const app = express()
 const PORT = 8080
@@ -26,25 +28,31 @@ app.use(morgan(function (tokens, req, res) {
   ].join(' ')
 }))
 
-const router = express.Router()
-const router2 = express.Router()
+const produtoRouter = express.Router()
+const agendaRouter = express.Router()
+const segurancaRouter = express.Router()
 
 const produtoController = require('./controller/produto.controller')
-router.get('/', produtoController.get)
-router.get('/:id', produtoController.getById)
-router.post('/', produtoController.create)
-router.put('/:id', produtoController.update)
-router.delete('/:id', produtoController.remove)
+produtoRouter.get('/', produtoController.get)
+produtoRouter.get('/:id', produtoController.getById)
+produtoRouter.post('/', produtoController.create)
+produtoRouter.put('/:id', produtoController.update)
+produtoRouter.delete('/:id', produtoController.remove)
 
 const agendaController = require('./controller/agenda.controller')(knex)
-router2.get('/', agendaController.get)
-router2.get('/:id', agendaController.getById)
-router2.post('/', agendaController.create)
-router2.put('/:id', agendaController.update)
-router2.delete('/:id', agendaController.remove)
+agendaRouter.get('/', agendaController.get)
+agendaRouter.get('/:id', agendaController.getById)
+agendaRouter.post('/', agendaController.create)
+agendaRouter.put('/:id', agendaController.update)
+agendaRouter.delete('/:id', agendaController.remove)
 
-app.use('/produtos/v1', router)
-app.use('/agendas/v1', router2)
+const segurancaController = require('./controller/seguranca.controller')(knex)
+segurancaRouter.post('/register', segurancaController.register)
+segurancaRouter.post('/login', segurancaController.login)
+
+app.use('/produtos/v1', produtoRouter)
+app.use('/agendas/v1', agendaRouter)
+app.use('/seguranca', )
 
 app.listen(PORT, HOST, () => {
   console.log('server running at http://0.0.0.0:8080')

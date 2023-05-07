@@ -1,4 +1,3 @@
-
 module.exports = (knex) => {
   return {
     async get (req, res) {
