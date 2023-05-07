@@ -17,10 +17,7 @@ module.exports = (knex) => {
     async login (req, res) {
       try {
         const { login, senha } = req.body
-        const usuarios = await knex
-          .select('*')
-          .from('usuario')
-          .where({ login })
+        const usuarios = await knex.select('*').from('usuario').where({ login })
         const [usuario] = usuarios
         if (!usuario) {
           return res.status(200).json({ message: 'Usuário não encontrado na base de dados...' })
@@ -31,10 +28,7 @@ module.exports = (knex) => {
         }
         const token = jwt.sign({ id: usuario.id }, process.env.SECRET_KEY, { expiresIn: '1h' })
         delete usuario.senha
-        return res.status(200).json({
-          ...usuario,
-          token
-        })
+        return res.status(200).json({ ...usuario, token })
       } catch (e) {
         return res.status(500).json({ message: `Erro ao verificar login - ${e.message}` })
       }
@@ -58,10 +52,7 @@ module.exports = (knex) => {
     },
     async isAdmin (req, res, next) {
       try {
-        const usuarios = await knex
-          .select('*')
-          .from('usuario')
-          .where({ id: req.usuarioId })
+        const usuarios = await knex.select('*').from('usuario').where({ id: req.usuarioId })
         const [usuario] = usuarios
         if (!usuario) {
           return res.status(403).json({ message: 'Usuário não encontrado...' })
