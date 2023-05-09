@@ -1,0 +1,44 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-rest-full
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+    - hosts:
+        - '*.krtec.app.br'
+        - krtec.app.br
+      secretName: krtec
+  rules:
+    - host: restfullapp.krtec.app.br
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: rest-full
+                port:
+                  number: 8080
+    - host: restfullappdb.krtec.app.br
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: rest-full-db
+                port:
+                  number: 8080
+    - host: restfullweb.krtec.app.br
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: rest-full-web
+                port:
+                  number: 80
